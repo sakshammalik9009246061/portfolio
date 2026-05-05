@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saksham Malik | Portfolio</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --gold: #d4af37;
+      --darkgold: #b8860b;
+      --black: #070707;
+      --card: rgba(255, 255, 255, 0.06);
+      --text: #f5f5f5;
+      --muted: rgba(255, 255, 255, 0.75);
+      --border: rgba(212, 175, 55, 0.25);
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* =================== SCROLL PROGRESS BAR =================== */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold), white, var(--gold));
+      z-index: 99999;
+      box-shadow: 0 0 12px rgba(212,175,55,0.6);
+    }
+
+    /* =================== PREMIUM GOLD SPARKLE BACKGROUND =================== */
+    .animated-bg {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -10;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Gradient Glow */
+    .animated-bg::before {
+      content: "";
+      position: absolute;
+      width: 160%;
+      height: 160%;
+      top: -30%;
+      left: -30%;
+      background: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.16), transparent 40%),
+                  radial-gradient(circle at 80% 70%, rgba(212,175,55,0.10), transparent 45%),
+                  radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 60%);
+      animation: gradientMove 12s ease-in-out infinite alternate;
+      filter: blur(55px);
+      will-change: transform;
+    }
+
+    @keyframes gradientMove {
+      0% { transform: translateX(-60px) translateY(-50px); }
+      100% { transform: translateX(60px) translateY(50px); }
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(212, 175, 55, 0.95);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(212,175,55,0.9);
+      opacity: 0.8;
+      animation: sparkleFloat 10s linear infinite, sparkleBlink 2.5s ease-in-out infinite;
+      will-change: transform, opacity;
+    }
+
+    @keyframes sparkleFloat {
+      0% { transform: translateY(0px) translateX(0px) scale(0.8); opacity: 0.6; }
+      100% { transform: translateY(-1300px) translateX(100px) scale(1.5); opacity: 0; }
+    }
+
+    @keyframes sparkleBlink {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* Floating Orbs (Ultra Premium) */
+    .orb {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(212,175,55,0.18), transparent 70%);
+      border-radius: 50%;
+      filter: blur(30px);
+      animation: orbMove 18s ease-in-out infinite alternate;
+      opacity: 0.8;
+    }
+
+    @keyframes orbMove {
+      0% { transform: translateY(0px) translateX(0px); }
+      100% { transform: translateY(-150px) translateX(180px); }
+    }
+
+    /* ================= NAVBAR ================= */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      padding: 15px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: var(--gold);
+      text-shadow: 0 0 12px rgba(212,175,55,0.4);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: bold;
+      transition: 0.3s;
+      position: relative;
+      padding-bottom: 5px;
+    }
+
+    nav ul li a.active {
+      color: var(--gold);
+    }
+
+    nav ul li a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      box-shadow: 0 0 10px rgba(212,175,55,0.6);
+    }
+
+    nav ul li a:hover {
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(212,175,55,0.6);
+    }
+
+    /* MAIN WRAPPER */
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    /* HERO */
+    #home {
+      padding-top: 120px;
+      padding-bottom: 60px;
+    }
+
+    .hero-box {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    /* PROFILE PHOTO CIRCLE */
+    .profile-pic {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 5px solid var(--gold);
+      overflow: hidden;
+      margin-bottom: 15px;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 25px rgba(212,175,55,0.35);
+    }
+
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* NAME Typing Effect */
+    .name-animation {
+      font-size: 60px;
+      font-weight: 900;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      position: relative;
+      display: inline-block;
+      text-shadow: 0 0 20px rgba(212,175,55,0.35);
+    }
+
+    .typing {
+      border-right: 4px solid var(--gold);
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typingEffect 2.5s steps(13, end) forwards, blinkCursor 0.7s infinite;
+    }
+
+    @keyframes typingEffect {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blinkCursor {
+      50% { border-color: transparent; }
+    }
+
+    /* UNDERLINE SWIPE */
+    .name-animation::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--gold), white, var(--gold));
+      border-radius: 5px;
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: underlineSwipe 1.8s ease forwards;
+      animation-delay: 2.6s;
+      box-shadow: 0 0 15px rgba(212,175,55,0.6);
+    }
+
+    @keyframes underlineSwipe {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+    }
+
+    .subtitle {
+      font-size: 24px;
+      font-weight: bold;
+      color: rgba(255,255,255,0.8);
+      margin-top: 15px;
+    }
+
+    .desc {
+      font-size: 26px;
+      line-height: 1.8;
+      max-width: 800px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* BUTTON SHINE EFFECT */
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px 28px;
+      background: linear-gradient(90deg, var(--gold), var(--darkgold));
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.3s;
+      width: fit-content;
+      box-shadow: 0 0 18px rgba(212,175,55,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      transition: 0.6s;
+    }
+
+    .btn:hover::before {
+      left: 120%;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* SECTION HEADINGS */
+    h2 {
+      font-size: 50px !important;
+      margin-bottom: 15px;
+      color: var(--gold);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: 0.9s ease;
+      text-shadow: 0 0 15px rgba(212,175,55,0.3);
+      will-change: transform, opacity;
+    }
+
+    h2.show-heading {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .section-text {
+      font-size: 25px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.8;
+      max-width: 900px;
+    }
+
+    /* CARDS */
+    .skills-box {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .skill, .project-card, .contact-box {
+      position: relative;
+    }
+
+    .skill {
+      padding: 12px 20px;
+      background: var(--card);
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      border: 1px solid var(--border);
+      color: rgba(255,255,255,0.85);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: 0.6s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .skill.show-skill {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .project-card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 0.8s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .project-card.show-project {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card h3 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .project-card p {
+      font-size: 22px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* CONTACT */
+    .contact-box {
+      margin-top: 20px;
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      max-width: 700px;
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: 0.9s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .contact-box.show-contact {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .contact-box p {
+      font-size: 24px;
+      line-height: 2;
+      color: rgba(255,255,255,0.85);
+      font-weight: bold;
+    }
+
+    .contact-box span {
+      color: var(--gold);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+      font-size: 16px;
+      font-weight: bold;
+      color: rgba(255,255,255,0.6);
+      margin-top: 30px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ================= CURSOR SPARKLE EFFECT ================= */
+    .cursor-sparkle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: rgba(212,175,55,0.95);
+      box-shadow: 0 0 18px rgba(212,175,55,0.9);
+      animation: cursorFade 0.8s ease-out forwards;
+      z-index: 99999;
+    }
+
+    @keyframes cursorFade {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+
+    /* ================= 3D TILT EFFECT ================= */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+      will-change: transform;
+    }
+
+    .tilt-card:hover {
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+    }
+
+    .tilt-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 60%);
+      opacity: 0;
+      transition: 0.3s ease;
+      pointer-events: none;
+    }
+
+    .tilt-card:hover::after {
+      opacity: 1;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 20px;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .name-animation {
+        font-size: 40px;
+      }
+
+      .subtitle {
+        font-size: 20px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h2 {
+        font-size: 38px !important;
+      }
+
+      .desc {
+        font-size: 22px;
+      }
+
+      .section-text {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- PREMIUM BACKGROUND -->
+  <div class="animated-bg">
+
+    <!-- Floating Orbs -->
+    <div class="orb" style="top:10%; left:5%;"></div>
+    <div class="orb" style="top:60%; left:70%; animation-duration:22s;"></div>
+
+    <!-- Sparkles -->
+    <span class="sparkle" style="left:5%; animation-delay:0s;"></span>
+    <span class="sparkle" style="left:12%; animation-delay:2s;"></span>
+    <span class="sparkle" style="left:18%; animation-delay:5s;"></span>
+    <span class="sparkle" style="left:25%; animation-delay:1s;"></span>
+    <span class="sparkle" style="left:30%; animation-delay:4s;"></span>
+    <span class="sparkle" style="left:38%; animation-delay:2s;"></span>
+    <span class="sparkle" style="left:45%; animation-delay:6s;"></span>
+    <span class="sparkle" style="left:52%; animation-delay:3s;"></span>
+    <span class="sparkle" style="left:60%; animation-delay:1s;"></span>
+    <span class="sparkle" style="left:68%; animation-delay:5s;"></span>
+    <span class="sparkle" style="left:75%; animation-delay:2s;"></span>
+    <span class="sparkle" style="left:82%; animation-delay:4s;"></span>
+    <span class="sparkle" style="left:90%; animation-delay:3s;"></span>
+    <span class="sparkle" style="left:96%; animation-delay:6s;"></span>
+
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">Saksham Malik</div>
+    <ul>
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#skills" class="nav-link">Skills</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HOME -->
+  <section id="home">
+    <div class="container">
+      <div class="hero-box">
+
+        <!-- PROFILE PHOTO -->
+        <div class="profile-pic">
+          <img src="saksham.jpg" alt="Saksham Malik">
+        </div>
+
+        <!-- Typing Name -->
+        <div class="name-animation typing">SAKSHAM MALIK</div>
+
+        <div class="subtitle">BCA Student | Web Developer | Programmer</div>
+
+        <p class="desc">
+          I am Saksham Malik, a BCA student passionate about programming and web development.
+          I love building websites, learning new technologies, and improving my coding skills daily.
+        </p>
+
+        <a href="#contact" class="btn">Contact Me</a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h2>About Me</h2>
+      <p class="section-text">
+        Hello! My name is <b style="color: var(--gold);">Saksham Malik</b>. I am currently pursuing BCA and I am interested in
+        web development and software programming. My goal is to become a professional developer
+        and build real-world projects.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <h2>Skills</h2>
+      <p class="section-text">
+        These are the technologies and skills I am learning and improving.
+      </p>
+
+      <div class="skills-box">
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">Python</div>
+        <div class="skill">C++</div>
+        <div class="skill">Web Designing</div>
+        <div class="skill">Problem Solving</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <p class="section-text">
+        Some of my basic projects and practice work.
+      </p>
+
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <h3>Portfolio Website</h3>
+          <p>A clean and responsive personal portfolio website made using HTML and CSS.</p>
+        </div>
+
+        <div class="project-card">
+          <h3>Student Data Program</h3>
+          <p>A basic program idea using logic to manage student records and details.</p>
+        </div>
+
+        <div class="project-card">
+          <h3>Form Validation Page</h3>
+          <p>A simple HTML form with validation and styling for practice.</p>
+        </div>
+
+        <div class="project-card">
+          <h3>Linux Termux Practice</h3>
+          <p>Learned Linux commands like file management, permissions, and system utilities in Termux.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact</h2>
+      <p class="section-text">
+        You can contact me using the details below.
+      </p>
+
+      <div class="contact-box">
+        <p><span>Phone:</span> 9009246051</p>
+        <p><span>Email:</span> sakshammalik9009246061@gmail.com</p>
+        <p><span>Instagram:</span> sa_ksham9855</p>
+      </div>
+
+      <a href="#home" class="btn" style="margin-top:20px;">Back to Top</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 Made with love by Saksham Malik 
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    const headings = document.querySelectorAll("h2");
+    const skills = document.querySelectorAll(".skill");
+    const projects = document.querySelectorAll(".project-card");
+    const contactBox = document.querySelector(".contact-box");
+
+    function showAnimations() {
+      headings.forEach((head) => {
+        let pos = head.getBoundingClientRect().top;
+        if (pos < window.innerHeight - 120) {
+          head.classList.add("show-heading");
+        }
+      });
+
+      skills.forEach((skill) => {
+        let pos = skill.getBoundingClientRect().top;
+        if (pos < window.innerHeight - 80) {
+          skill.classList.add("show-skill");
+        }
+      });
+
+      projects.forEach((project) => {
+        let pos = project.getBoundingClientRect().top;
+        if (pos < window.innerHeight - 100) {
+          project.classList.add("show-project");
+        }
+      });
+
+      let contactPos = contactBox.getBoundingClientRect().top;
+      if (contactPos < window.innerHeight - 100) {
+        contactBox.classList.add("show-contact");
+      }
+    }
+
+    window.addEventListener("load", showAnimations);
+    window.addEventListener("scroll", showAnimations);
+
+    /* ================= CURSOR SPARKLE EFFECT ================= */
+    document.addEventListener("mousemove", function(e) {
+      let sparkle = document.createElement("div");
+      sparkle.classList.add("cursor-sparkle");
+      sparkle.style.left = e.clientX + "px";
+      sparkle.style.top = e.clientY + "px";
+      document.body.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 800);
+    });
+
+    /* ================= 3D TILT EFFECT ================= */
+    const tiltElements = document.querySelectorAll(".project-card, .skill, .contact-box");
+
+    tiltElements.forEach((card) => {
+      card.classList.add("tilt-card");
+
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * 8;
+        const rotateY = ((x - centerX) / centerX) * -8;
+
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)";
+      });
+    });
+
+    /* ================= SCROLL PROGRESS BAR ================= */
+    window.addEventListener("scroll", () => {
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = (scrollTop / scrollHeight) * 100;
+      document.getElementById("scrollProgress").style.width = progress + "%";
+    });
+
+    /* ================= ACTIVE NAV LINK ================= */
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 150;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
